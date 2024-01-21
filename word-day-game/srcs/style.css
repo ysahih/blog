@@ -1,0 +1,48 @@
+
+h1{
+  font-family: italic;
+  color : blue;
+  
+}
+
+header{
+    width: 100%;
+    display: block;
+}
+
+header h1{
+    text-align: center;
+}
+
+.info {
+    display: inline-block;
+    animation: spin .5s infinite ease;
+    width: 100%;
+    text-align: center;
+    font-size: xx-large;
+}
+  
+@keyframes spin {
+    
+  from {  /*from here can be removed! */
+    transform: rotate(0deg);
+  }
+  to { 
+    transform: rotate(360deg);
+  }
+}
+
+.letters{
+  max-width: 400px;
+  display: grid;
+  margin: 5% auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  row-gap: 13px;
+  column-gap: 5px;
+}
+
+.letter {
+  width: 75px;
+  height: 75px;
+  border: 2px solid gray;
+}
