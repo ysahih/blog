@@ -1,15 +1,23 @@
 
 const letters = document.querySelectorAll(".letter");
+
 const LENGTH = 5;
 
 function isLetter(character) {
     return /^[A-Za-z]$/.test(character);
 }
 
+
 async function init(){
 
     let Guess = "";
     let Row = 0;
+
+    const res = await fetch("https://words.dev-apis.com/word-of-the-day");
+    const resObj = await res.json();
+    const word = resObj.word.toUpperCase();
+
+
     function display(letter){
         if (Guess.length < LENGTH)
             Guess += letter;
@@ -20,16 +28,25 @@ async function init(){
         letters[Row * LENGTH + Guess.length - 1].innerText = letter;
     }
 
-    function backSpace(){
-        
-    }
 
     function enter(){
         if(Guess.length < LENGTH)
             return ;
-        // if (Guess === ){
-
-        // }
+        for (let i = 0; i<LENGTH; i++){
+            
+            if (Guess.charAt(i) === word.charAt(i) ){
+                
+                letters[Row * LENGTH + i].classList.add("correct");
+                document.querySelector("." + Guess.charAt(i)).classList.add("correct");
+            }   
+        }
+        for (let i = 0; i<LENGTH; i++){
+            if (Guess.charAt(i) !== word.charAt(i) && word.includes(Guess.charAt(i))){
+                letters[Row * LENGTH + i].classList.add("close");
+                document.querySelector("." + Guess.charAt(i)).classList.add("close");
+            }
+            
+        }
         Row++;
         Guess = '';
     }
@@ -40,7 +57,7 @@ async function init(){
     }
 
     function switchCase(input){
-        console.log(input);
+
         if (input == "Enter" || input == "ENTER")
             enter();
         else if (input == "Backspace" || input == "backspace")
@@ -53,9 +70,8 @@ async function init(){
         switchCase(event.target.innerText);
     })
 
-    document.addEventListener("keydown", function handleInput(event){
-        const input = event.key;
-        switchCase(input);
+    document.addEventListener("keydown", function (event){
+        switchCase(event.key);
     })
     
 }
